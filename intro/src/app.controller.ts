@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -8,5 +8,10 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello(); //on the instance of the AppService class, the getHello() method is called.
+  }
+
+  @Post()
+  postHello(): string {
+    return 'post requesr succesful';
   }
 }
