@@ -5,16 +5,20 @@ import {
   Post,
   Query,
   ParseIntPipe,
-  DefaultValuePipe
+  DefaultValuePipe,
+  Body,
+  Patch,
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
 
 // GET -- http://localhost:3000/users
 @Controller("users")
 export class UsersController {
   @Get()
   getUsers(
-    @Query("limit", new DefaultValuePipe(10), ParseIntPipe ) limit: number,
+    @Query("limit", new DefaultValuePipe(10), ParseIntPipe) limit: number,
     @Query() query: any,
     @Query("page", new DefaultValuePipe(1), ParseIntPipe) page: number
   ) {
@@ -36,17 +40,26 @@ export class UsersController {
   }
 
   //POST -- http://localhost:3000/users
+  // @Post()
+  // createUser() {
+  //   const user = {
+  //     id: 5,
+  //     name: "Johny",
+  //     email: "johny@gmail.com",
+  //     gender: "Male",
+  //     isMarried: false,
+  //   };
+  //   const newUser = new UsersService();
+  //   newUser.createUser(user);
+  //   return { message: "User created", user };
+  // }
+
   @Post()
-  createUser() {
-    const user = {
-      id: 5,
-      name: "Johny",
-      email: "johny@gmail.com",
-      gender: "Male",
-      isMarried: false,
-    };
-    const newUser = new UsersService();
-    newUser.createUser(user);
+  createUser(@Body() user: CreateUserDto) {
+    // const newUser = new UsersService();
+    // newUser.createUser(user);
+    // return { message: "User created", user };
+    console.log(user);
     return { message: "User created", user };
   }
 
@@ -56,5 +69,11 @@ export class UsersController {
     // user.getUserById(+id);
     console.log(typeof id, id);
     return { message: "User fetched successfully", user: user.getUserById(id) };
+  }
+
+  @Patch()
+  updateUser(@Body() user: UpdateUserDto) {
+    console.log(user);
+    return { message: "User updated", user };
   }
 }
