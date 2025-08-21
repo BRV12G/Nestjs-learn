@@ -31,4 +31,6 @@ export class CreateUserDto {
   @IsOptional({ message: "IsMarried is optional" })
   @IsBoolean({ message: "IsMarried must be a boolean" })
   isMarried: boolean;
+
+  password: string;
 }

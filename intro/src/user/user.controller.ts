@@ -18,28 +18,28 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 export class UsersController {
   constructor(private usersService: UsersService) {}
   @Get()
-  getUsers(
-    @Query("limit", new DefaultValuePipe(10), ParseIntPipe) limit: number,
-    @Query() query: any,
-    @Query("page", new DefaultValuePipe(1), ParseIntPipe) page: number
-  ) {
-    let displayUsers = this.usersService.getAllUsers();
-    if (query.gender) {
-      displayUsers = displayUsers.filter(
-        (user) => user.gender === query.gender
-      );
-      return {
-        message: "Users fetched successfully according to query params",
-        displayUsers,
-      };
-    }
-    // console.log(query);
-    console.log(limit, page);
-    return {
-      message: "Users fetched successfully",
-      displayUsers,
-    };
-  }
+  // getUsers(
+  //   @Query("limit", new DefaultValuePipe(10), ParseIntPipe) limit: number,
+  //   @Query() query: any,
+  //   @Query("page", new DefaultValuePipe(1), ParseIntPipe) page: number
+  // ) {
+  //   let displayUsers = this.usersService.getAllUsers();
+  //   if (query.gender) {
+  //     displayUsers = displayUsers.filter(
+  //       (user) => user.gender === query.gender
+  //     );
+  //     return {
+  //       message: "Users fetched successfully according to query params",
+  //       displayUsers,
+  //     };
+  // //   }
+  //   // console.log(query);
+  //   console.log(limit, page);
+  //   return {
+  //     message: "Users fetched successfully",
+  //     displayUsers,
+  //   };
+  // }
 
   //POST -- http://localhost:3000/users
   // @Post()
