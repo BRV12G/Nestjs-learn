@@ -16,26 +16,28 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 // GET -- http://localhost:3000/users
 @Controller("users")
 export class UsersController {
+  constructor(private usersService: UsersService) {}
   @Get()
   getUsers(
     @Query("limit", new DefaultValuePipe(10), ParseIntPipe) limit: number,
     @Query() query: any,
     @Query("page", new DefaultValuePipe(1), ParseIntPipe) page: number
   ) {
-    const displayUsers = new UsersService();
+    let displayUsers = this.usersService.getAllUsers();
     if (query.gender) {
+      displayUsers = displayUsers.filter(
+        (user) => user.gender === query.gender
+      );
       return {
         message: "Users fetched successfully according to query params",
-        users: displayUsers
-          .getAllUsers()
-          .filter((user) => user.gender === query.gender),
+        displayUsers,
       };
     }
     // console.log(query);
     console.log(limit, page);
     return {
       message: "Users fetched successfully",
-      users: displayUsers.getAllUsers(),
+      displayUsers,
     };
   }
 
@@ -56,19 +58,18 @@ export class UsersController {
 
   @Post()
   createUser(@Body() user: CreateUserDto) {
-    // const newUser = new UsersService();
-    // newUser.createUser(user);
+    const newUser = this.usersService.createUser(user);
+    return { message: "User created", newUser };
+    // console.log(user);
     // return { message: "User created", user };
-    console.log(user);
-    return { message: "User created", user };
   }
 
   @Get(":id")
   getUserByID(@Param("id", ParseIntPipe) id: number) {
-    const user = new UsersService();
+    const user = this.usersService.getUserById(id);
     // user.getUserById(+id);
     console.log(typeof id, id);
-    return { message: "User fetched successfully", user: user.getUserById(id) };
+    return { message: "User fetched successfully", user };
   }
 
   @Patch()
